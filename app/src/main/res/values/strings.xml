@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Pronunhelper</string>
+    <string name="masukan_kata_atau_kalimat">Masukan Kata</string>
+    <string name="speak">Putar</string>
+    <string name="pitch">Atur Pitch</string>
+    <string name="contoh_kata">Kata atau kalimat</string>
+    <string name="atur_kecepatan">Atur Kecepatan</string>
+    <string name="pitch_value">1.0</string>
+
+    <string name="digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890. \'\",?!)(</string>
+    <string name="cara_bermain">*Cara menjawab: \n
+        1. Tekan tombol putar untuk mendengarkan suara dalam bahasa inggris\n
+        2.Tulis ulang kata yang diucapkan\n
+        3.Tekan \'Selanjutnya\' untuk melanjutkan soal kamu</string>
+
+    <string-array name="soal">
+        <item>i love you</item>
+        <item>i like cat</item>
+        <item>alligator</item>
+        <item>she love a dog</item>
+        <item>this is a beautiful day</item>
+        <item>pineapple</item>
+        <item>chocolate</item>
+        <item>good luck</item>
+        <item>Washroom</item>
+        <item>wish you all the best</item>
+    </string-array>
+</resources>

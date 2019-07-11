@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScoreActivity"
+    android:padding="16dp"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:id="@+id/skor_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKOR KAMU ADALAH "
+        android:textSize="26sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"/>
+
+    <TextView
+        android:id="@+id/skor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="60sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/skor_text"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/skor">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="16dp"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/skor_satu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 1 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/skor_dua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 2 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_tiga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 3 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_empat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 4 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_lima"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 5 "
+                android:textSize="18sp"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_enam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 6 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_tujuh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 7 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_delapan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 8 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_sembilan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 9 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skor_sepuluh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nomor 10 "
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/ic_benar"
+                android:drawablePadding="16dp"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
