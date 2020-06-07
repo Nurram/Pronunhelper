@@ -3,8 +3,8 @@ package com.nurram.project.imagetextrecognition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,52 +42,41 @@ public class KuisActivity extends AppCompatActivity implements TextToSpeech.OnIn
         mToSpeech = new TextToSpeech(this, this);
 
         mPutar = findViewById(R.id.kuis_putar);
-        mPutar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speak(soal[index % soal.length]);
-            }
-        });
+        mPutar.setOnClickListener(v -> speak(soal[index % soal.length]));
 
         mCek = findViewById(R.id.kuis_cek);
-        mCek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (index < soal.length) {
-                    if (!mJawaban.getText().toString().isEmpty()) {
-                        cekJawaban(mJawaban.getText().toString());
-                        index++;
-                        mJawaban.setText(null);
+        mCek.setOnClickListener(v -> {
+            if (index < soal.length) {
+                if (!mJawaban.getText().toString().isEmpty()) {
+                    cekJawaban(mJawaban.getText().toString());
+                    index++;
+                    mJawaban.setText(null);
 
-                        if (index == soal.length) {
-                            Intent intent = new Intent(KuisActivity.this, ScoreActivity.class);
-                            intent.putExtra("key", skor);
-                            intent.putExtra("key2", mListJawaban);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                    } else {
-                        Toast.makeText(getApplication(), "Jawaban kamu masih kosong", Toast.LENGTH_SHORT).show();
+                    if (index == soal.length) {
+                        Intent intent = new Intent(KuisActivity.this, ScoreActivity.class);
+                        intent.putExtra("key", skor);
+                        intent.putExtra("key2", mListJawaban);
+                        startActivity(intent);
+                        finish();
                     }
 
+                } else {
+                    Toast.makeText(getApplication(), "Jawaban kamu masih kosong", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
         mSoal = findViewById(R.id.textaturan);
 
         mMengerti = findViewById(R.id.btn_1);
-        mMengerti.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSoal.setVisibility(View.GONE);
-                mMasukanJawaban.setVisibility(View.VISIBLE);
-                mJawaban.setVisibility(View.VISIBLE);
-                mPutar.setVisibility(View.VISIBLE);
-                mCek.setVisibility(View.VISIBLE);
-                mMengerti.setVisibility(View.GONE);
-            }
+        mMengerti.setOnClickListener(v -> {
+            mSoal.setVisibility(View.GONE);
+            mMasukanJawaban.setVisibility(View.VISIBLE);
+            mJawaban.setVisibility(View.VISIBLE);
+            mPutar.setVisibility(View.VISIBLE);
+            mCek.setVisibility(View.VISIBLE);
+            mMengerti.setVisibility(View.GONE);
         });
     }
 

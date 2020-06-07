@@ -7,20 +7,20 @@
     android:orientation="vertical"
     tools:context=".SavedListActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         android:stateListAnimator="@null">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/pengecualian_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/AppToolbar"/>
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_pengecualian"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

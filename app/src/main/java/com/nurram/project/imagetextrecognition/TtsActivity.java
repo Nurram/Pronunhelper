@@ -1,15 +1,17 @@
 package com.nurram.project.imagetextrecognition;
 
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,50 +49,39 @@ public class TtsActivity extends AppCompatActivity implements android.speech.tts
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mRepo = new WordRepository(getApplication());
-        mRepo.getAllWords().observe(this, new Observer<List<Word>>() {
-            @Override
-            public void onChanged(@Nullable List<Word> words) {
-                mWords = words;
-            }
-        });
+        mRepo.getAllWords().observe(this, words -> mWords = words);
 
         editText = findViewById(R.id.tts_kata);
         mToSpeech = new android.speech.tts.TextToSpeech(this, this);
 
         final Switch cekBahasa = findViewById(R.id.switch1);
         Button androTtsButton = findViewById(R.id.android_button);
-        androTtsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = editText.getText().toString().toLowerCase();
-                boolean fromDb = false;
+        androTtsButton.setOnClickListener(v -> {
+            String text = editText.getText().toString().toLowerCase();
+            boolean fromDb = false;
 
-                if (cekBahasa.isChecked()) {
+            if (cekBahasa.isChecked()) {
 
-                    for (Word word : mWords) {
-                        if (word.getWord().equals(text)) {
-                            fromDb = true;
-                            speak(text.toLowerCase());
-                            break;
-                        }
+                for (Word word : mWords) {
+                    if (word.getWord().equals(text)) {
+                        fromDb = true;
+                        speak(text.toLowerCase());
+                        break;
                     }
-
-                    if (!fromDb) {
-                        new TtsAsync().execute(text.toLowerCase());
-                    }
-                } else {
-                    speak(text.toLowerCase());
                 }
+
+                if (!fromDb) {
+                    new TtsAsync().execute(text.toLowerCase());
+                }
+            } else {
+                speak(text.toLowerCase());
             }
         });
 
         Button pengecualianButton = findViewById(R.id.tts_daftar_peng);
-        pengecualianButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TtsActivity.this, SavedListActivity.class);
-                startActivity(intent);
-            }
+        pengecualianButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TtsActivity.this, SavedListActivity.class);
+            startActivity(intent);
         });
 
         mPitchVal = findViewById(R.id.pitch_value);
@@ -216,19 +207,11 @@ public class TtsActivity extends AppCompatActivity implements android.speech.tts
 
         builder.setTitle("Kata terdeteksi bukan bahasa inggris")
                 .setMessage("Masukan '" + text + "' pada pengecualian?")
-                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Word word = new Word(text);
-                        mRepo.insert(word);
-                    }
+                .setPositiveButton("Ya", (dialog, which) -> {
+                    Word word = new Word(text);
+                    mRepo.insert(word);
                 })
-                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setNegativeButton("Tidak", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

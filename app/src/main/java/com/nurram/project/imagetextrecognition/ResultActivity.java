@@ -1,19 +1,19 @@
 package com.nurram.project.imagetextrecognition;
 
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,12 +52,7 @@ public class ResultActivity extends AppCompatActivity implements ClickUtil, Text
         }
 
         mRepo = new WordRepository(getApplication());
-        mRepo.getAllWords().observe(this, new Observer<List<Word>>() {
-            @Override
-            public void onChanged(@Nullable List<Word> words) {
-                mWords = words;
-            }
-        });
+        mRepo.getAllWords().observe(this, words -> mWords = words);
 
         cekBahasa = findViewById(R.id.switch1);
         Toolbar toolbar = findViewById(R.id.result_toolbar);
@@ -66,12 +61,9 @@ public class ResultActivity extends AppCompatActivity implements ClickUtil, Text
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button pengecualianButton = findViewById(R.id.result_cek_saved);
-        pengecualianButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ResultActivity.this, SavedListActivity.class);
-                startActivity(intent);
-            }
+        pengecualianButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ResultActivity.this, SavedListActivity.class);
+            startActivity(intent);
         });
 
         RecyclerAdapter adapter = new RecyclerAdapter(this, mBlocks, this);
@@ -202,19 +194,11 @@ public class ResultActivity extends AppCompatActivity implements ClickUtil, Text
 
         builder.setTitle("Kata terdeteksi bukan bahasa inggris")
                 .setMessage("Masukan '" + text + "' pada pengecualian?")
-                .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Word word = new Word(text);
-                        mRepo.insert(word);
-                    }
+                .setPositiveButton("Ya", (dialog, which) -> {
+                    Word word = new Word(text);
+                    mRepo.insert(word);
                 })
-                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setNegativeButton("Tidak", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 }

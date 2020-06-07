@@ -8,13 +8,13 @@
     android:fillViewport="true"
     android:background="#14918a">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".MainActivity"
         android:orientation="vertical">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/tts_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
@@ -24,12 +24,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tts_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:theme="@style/AppToolbar" />
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:id="@+id/tts_status"
@@ -202,5 +202,5 @@
             app:layout_constraintStart_toEndOf="@+id/android_button"
             app:layout_constraintTop_toBottomOf="@+id/tts_kata" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
