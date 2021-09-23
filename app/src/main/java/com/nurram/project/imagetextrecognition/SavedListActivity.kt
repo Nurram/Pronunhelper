@@ -41,7 +41,7 @@ class SavedListActivity : AppCompatActivity() {
                 .show()
         }
         repository = WordRepository(application)
-        repository.getAll().observe(this) { words ->
+        repository.getAll()?.observe(this) { words ->
             adapter.addData(words as ArrayList<Word>)
             binding.listPengecualian.adapter = adapter
         }

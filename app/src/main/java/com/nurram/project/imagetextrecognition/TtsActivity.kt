@@ -34,7 +34,7 @@ class TtsActivity : AppCompatActivity(), OnInitListener {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         repository = WordRepository(application)
-        repository.getAll().observe(this, { words: List<Word>? ->
+        repository.getAll()?.observe(this, { words: List<Word>? ->
             if (words != null) {
                 mWords = words
             }

@@ -45,7 +45,7 @@ class ResultActivity : AppCompatActivity(), OnInitListener {
         }
 
         repository = WordRepository(application)
-        repository.getAll().observe(this) { words -> mWords = words }
+        repository.getAll()?.observe(this) { words -> mWords = words }
 
         binding.resultCekSaved.setOnClickListener {
             val intent = Intent(this, SavedListActivity::class.java)
@@ -56,8 +56,8 @@ class ResultActivity : AppCompatActivity(), OnInitListener {
             val text = words.lowercase()
             var fromDb = false
             if (binding.switch1.isChecked) {
-                for (word in mWords) {
-                    if (word.equals(text)) {
+                for (element in mWords) {
+                    if (element.word == text) {
                         fromDb = true
                         speak(text.lowercase())
                         break

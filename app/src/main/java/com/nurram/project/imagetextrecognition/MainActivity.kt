@@ -1,6 +1,7 @@
 package com.nurram.project.imagetextrecognition
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
@@ -12,13 +13,16 @@ import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nurram.project.imagetextrecognition.databinding.ActivityMainBinding
 import com.wonderkiln.camerakit.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageBitmap: Bitmap
-    private lateinit var mediaPlayer: MediaPlayer
 
+    private var mediaPlayer: MediaPlayer? = null
     private var isCapturedShow = false
     private var mBlockList = arrayListOf<String>()
 
@@ -33,8 +37,11 @@ class MainActivity : AppCompatActivity() {
             override fun onEvent(cameraKitEvent: CameraKitEvent) {}
             override fun onError(cameraKitError: CameraKitError) {}
             override fun onImage(cameraKitImage: CameraKitImage) {
-                imageBitmap = cameraKitImage.bitmap
+                val out = ByteArrayOutputStream()
+                cameraKitImage.bitmap.compress(Bitmap.CompressFormat.PNG, 75, out)
+                val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
 
+                imageBitmap = decoded
                 binding.capturedLayout.capturedImage.visibility = View.VISIBLE
                 binding.progress.visibility = View.GONE
                 binding.capturedLayout.image.setImageBitmap(imageBitmap)
@@ -56,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             binding.cameraLayout.captureImage()
 
             mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.camera)
-            mediaPlayer.start()
+            mediaPlayer!!.start()
         }
 
         binding.capturedLayout.processFab.setOnClickListener {
@@ -76,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         binding.cameraLayout.stop()
-        mediaPlayer.stop()
+        mediaPlayer?.stop()
     }
 
     override fun onBackPressed() {
