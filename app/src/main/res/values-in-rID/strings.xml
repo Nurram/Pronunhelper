@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_word">Masukan kata</string>
+    <string name="play">Putar</string>
+    <string name="set_pitch">Atur Pitch</string>
+    <string name="word_or_sentence">Kata atau kalimat</string>
+    <string name="set_speed">Atur kecepatan</string>
+    <string name="hold_until_finish">Tahan sampai selesai</string>
+    <string name="result">Hasil</string>
+    <string name="initiation_failed">Inisiasi gagal</string>
+    <string name="word_not_english">Kata Ini bukan bahasa inggris</string>
+    <string name="add">Tambahkan</string>
+    <string name="to_whitelist">ke pengecualian</string>
+    <string name="whitelist">Pengecualian</string>
+    <string name="deleted">dihapus</string>
+    <string name="choose_menu">Pilih Menu</string>
+    <string name="take_picture">Ambil Foto</string>
+    <string name="enter_text">Masukan teks</string>
+    <string name="exit">Keluar</string>
+    <string name="check_language">Cek Bahasa</string>
+</resources>
