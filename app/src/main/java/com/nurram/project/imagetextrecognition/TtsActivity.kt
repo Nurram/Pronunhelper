@@ -106,7 +106,8 @@ class TtsActivity : AppCompatActivity(), OnInitListener {
             Toast.makeText(
                 this,
                 getString(R.string.initiation_failed),
-                Toast.LENGTH_SHORT)
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
     }
@@ -138,7 +139,8 @@ class TtsActivity : AppCompatActivity(), OnInitListener {
     private fun showDialog(text: String) {
         val builder = AlertDialog.Builder(
             this,
-            android.R.style.Theme_Material_Light_Dialog_Alert)
+            android.R.style.Theme_Material_Light_Dialog_Alert
+        )
 
         builder.setTitle(getString(R.string.word_not_english))
             .setMessage("${getString(R.string.add)} '$text' ${getString(R.string.to_whitelist)}?")

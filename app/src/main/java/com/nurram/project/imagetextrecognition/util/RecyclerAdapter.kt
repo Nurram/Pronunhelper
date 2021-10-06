@@ -7,8 +7,10 @@ import com.nurram.project.imagetextrecognition.databinding.RowItemBinding
 import com.nurram.project.imagetextrecognition.util.RecyclerAdapter.RecyclerHolder
 import java.util.*
 
-class RecyclerAdapter(private val mBlocks: ArrayList<String>,
-    val onClick: (String) -> Unit) : RecyclerView.Adapter<RecyclerHolder>() {
+class RecyclerAdapter(
+    private val mBlocks: ArrayList<String>,
+    val onClick: (String) -> Unit
+) : RecyclerView.Adapter<RecyclerHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -16,7 +18,8 @@ class RecyclerAdapter(private val mBlocks: ArrayList<String>,
         return RecyclerHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerHolder, position: Int) = holder.bind(mBlocks[position])
+    override fun onBindViewHolder(holder: RecyclerHolder, position: Int) =
+        holder.bind(mBlocks[position])
 
     override fun getItemCount(): Int = mBlocks.size
 

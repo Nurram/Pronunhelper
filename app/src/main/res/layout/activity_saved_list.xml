@@ -16,11 +16,11 @@
             android:id="@+id/pengecualian_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:theme="@style/AppToolbar"/>
+            android:theme="@style/AppToolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_pengecualian"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

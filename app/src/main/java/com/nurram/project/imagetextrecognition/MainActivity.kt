@@ -1,116 +1,104 @@
 package com.nurram.project.imagetextrecognition
 
+import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.nurram.project.imagetextrecognition.databinding.ActivityMainBinding
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
+@DelicateCoroutinesApi
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var imageBitmap: Bitmap
 
-    private var mediaPlayer: MediaPlayer? = null
-    private var isCapturedShow = false
     private var mBlockList = arrayListOf<String>()
+    private lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonCamera.setOnClickListener {
-            Toast.makeText(
-                this@MainActivity,
-                getString(R.string.hold_until_finish),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-
-            binding.buttonCamera.visibility = View.GONE
-            binding.progress.visibility = View.VISIBLE
-            binding.cameraLayout.captureImage { _, capturedImage ->
-                val savedPhoto = File(cacheDir, Calendar.getInstance().timeInMillis.toString())
-                Log.d("TAG", "camputer")
-                try {
-                    val stream = FileOutputStream(savedPhoto.path)
-                    stream.write(capturedImage)
-                    stream.close()
-
-                    val bitmap = BitmapFactory.decodeStream(ByteArrayInputStream(capturedImage))
-                    val out = ByteArrayOutputStream()
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 75, out)
-                    val decoded = BitmapFactory.decodeStream(ByteArrayInputStream(capturedImage))
-
-                    imageBitmap = decoded
-                    binding.capturedLayout.capturedImage.visibility = View.VISIBLE
-                    binding.progress.visibility = View.GONE
-                    binding.capturedLayout.image.setImageBitmap(imageBitmap)
-                    isCapturedShow = true
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this, "Something happened", Toast.LENGTH_SHORT).show()
-                    finish()
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    ex.printStackTrace()
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.android.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, INTENT_CAMERA)
                 }
             }
-
-            mediaPlayer = MediaPlayer.create(this@MainActivity, R.raw.camera)
-            mediaPlayer!!.start()
-        }
-
-        binding.capturedLayout.processFab.setOnClickListener {
-            binding.capturedLayout.processFab.isClickable = false
-            processTextRecog(imageBitmap)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.cameraLayout.onStart()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == INTENT_CAMERA && resultCode == RESULT_OK) {
+
+            lifecycleScope.launch {
+                var bitmap: Bitmap
+
+                binding.mainProgress.visibility = View.VISIBLE
+                withContext(lifecycleScope.coroutineContext + Dispatchers.IO) {
+                    bitmap = Picasso.get().load("file:$currentPhotoPath").get()
+                }
+                binding.mainProgress.visibility = View.GONE
+                binding.capturedLayout.capturedImage.visibility = View.VISIBLE
+
+                binding.capturedLayout.image.setImageBitmap(bitmap)
+                binding.capturedLayout.processFab.setOnClickListener {
+                    processTextRecog(bitmap)
+                }
+            }
+        }
     }
+
 
     override fun onResume() {
         super.onResume()
-        binding.cameraLayout.onResume()
-        binding.buttonCamera.visibility = View.VISIBLE
-        binding.progress.visibility = View.GONE
         binding.capturedLayout.processFab.isClickable = true
     }
 
-    override fun onPause() {
-        super.onPause()
-        binding.cameraLayout.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        binding.cameraLayout.onStop()
-        mediaPlayer?.stop()
-    }
-
-    override fun onBackPressed() {
-        if (isCapturedShow) {
-            binding.capturedLayout.capturedImage.visibility = View.GONE
-            binding.progress.visibility = View.GONE
-            binding.buttonCamera.visibility = View.VISIBLE
-            isCapturedShow = false
-        } else {
-            super.onBackPressed()
-        }
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        ).apply { currentPhotoPath = absolutePath }
     }
 
     private fun processTextRecog(image: Bitmap) {
@@ -120,8 +108,6 @@ class MainActivity : AppCompatActivity() {
         val mRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
         mRecognizer.process(inputImage)
             .addOnSuccessListener { result: Text ->
-                val intent = ResultActivity.getIntent(this@MainActivity)
-                binding.capturedLayout.capturedImage.visibility = View.GONE
 
                 for (block in result.textBlocks) {
                     for (line in block.lines) {
@@ -130,8 +116,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                val intent = ResultActivity.getIntent(this@MainActivity)
                 intent.putStringArrayListExtra("block", mBlockList)
                 startActivity(intent)
+
+                finish()
             }
             .addOnFailureListener {
                 Toast.makeText(
@@ -140,5 +129,9 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+    }
+
+    companion object {
+        const val INTENT_CAMERA = 101
     }
 }

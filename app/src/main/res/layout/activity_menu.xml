@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivity"
-    android:background="@drawable/bg">
+    android:background="@drawable/bg"
+    tools:context=".MenuActivity">
 
     <TextView
         android:id="@+id/textView3"

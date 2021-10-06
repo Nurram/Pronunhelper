@@ -28,8 +28,9 @@ class SavedListActivity : AppCompatActivity() {
         binding.listPengecualian.layoutManager = LinearLayoutManager(this)
         binding.listPengecualian.addItemDecoration(
             DividerItemDecoration(
-            this,
-            DividerItemDecoration.VERTICAL)
+                this,
+                DividerItemDecoration.VERTICAL
+            )
         )
 
         val adapter = ExcludeAdapter {
@@ -37,7 +38,8 @@ class SavedListActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "${it.word} ${getString(R.string.deleted)}",
-                Toast.LENGTH_SHORT)
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
         repository = WordRepository(application)

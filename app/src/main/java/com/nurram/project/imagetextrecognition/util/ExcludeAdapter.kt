@@ -7,8 +7,8 @@ import com.nurram.project.imagetextrecognition.databinding.ItemListBinding
 import com.nurram.project.imagetextrecognition.room.Word
 import com.nurram.project.imagetextrecognition.util.ExcludeAdapter.ExcludeHolder
 
-class ExcludeAdapter(val onClick: (word: Word) -> Unit): RecyclerView.Adapter<ExcludeHolder>() {
-    private var mWords =  arrayListOf<Word>()
+class ExcludeAdapter(val onClick: (word: Word) -> Unit) : RecyclerView.Adapter<ExcludeHolder>() {
+    private var mWords = arrayListOf<Word>()
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ExcludeHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
@@ -20,7 +20,8 @@ class ExcludeAdapter(val onClick: (word: Word) -> Unit): RecyclerView.Adapter<Ex
 
     override fun getItemCount() = mWords.size
 
-    inner class ExcludeHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ExcludeHolder(private val binding: ItemListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(word: Word) {
             binding.apply {
